@@ -62,22 +62,23 @@ namespace Christ3D.UI.Web
                     o.LoginPath = new PathString("/login");
                     o.AccessDeniedPath = new PathString("/home/access-denied");
                 })
-                .AddFacebook(o =>
-                {
-                    o.AppId = Configuration["Authentication:Facebook:AppId"];
-                    o.AppSecret = Configuration["Authentication:Facebook:AppSecret"];
-                })
-                .AddGoogle(googleOptions =>
-                {
-                    googleOptions.ClientId = Configuration["Authentication:Google:ClientId"];
-                    googleOptions.ClientSecret = Configuration["Authentication:Google:ClientSecret"];
-                });
+                //.AddFacebook(o =>
+                //{
+                //    o.AppId = Configuration["Authentication:Facebook:AppId"];
+                //    o.AppSecret = Configuration["Authentication:Facebook:AppSecret"];
+                //})
+                //.AddGoogle(googleOptions =>
+                //{
+                //    googleOptions.ClientId = Configuration["Authentication:Google:ClientId"];
+                //    googleOptions.ClientSecret = Configuration["Authentication:Google:ClientSecret"];
+                //})
+                ;
 
 
             // Automapper 注入
             services.AddAutoMapperSetup();
 
-            services.AddMvc();
+            services.AddControllersWithViews();
 
 
             services.AddAuthorization(options =>
@@ -113,14 +114,18 @@ namespace Christ3D.UI.Web
 
             app.UseStaticFiles();
             app.UseCookiePolicy();
+
+            app.UseRouting();
+
             app.UseAuthentication();
+            app.UseAuthorization();
 
 
-            app.UseMvc(routes =>
+            app.UseEndpoints(endpoints =>
             {
-                routes.MapRoute(
+                endpoints.MapControllerRoute(
                     name: "default",
-                    template: "{controller=Home}/{action=Index}/{id?}");
+                    pattern: "{controller=Home}/{action=Index}/{id?}");
             });
         }
     }
