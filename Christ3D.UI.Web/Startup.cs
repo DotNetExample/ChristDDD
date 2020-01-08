@@ -57,22 +57,29 @@ namespace Christ3D.UI.Web
                 .AddEntityFrameworkStores<ApplicationDbContext>()
                 .AddDefaultTokenProviders();
 
-            services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
-                .AddCookie(o => {
-                    o.LoginPath = new PathString("/login");
-                    o.AccessDeniedPath = new PathString("/home/access-denied");
-                })
-                //.AddFacebook(o =>
-                //{
-                //    o.AppId = Configuration["Authentication:Facebook:AppId"];
-                //    o.AppSecret = Configuration["Authentication:Facebook:AppSecret"];
-                //})
-                //.AddGoogle(googleOptions =>
-                //{
-                //    googleOptions.ClientId = Configuration["Authentication:Google:ClientId"];
-                //    googleOptions.ClientSecret = Configuration["Authentication:Google:ClientSecret"];
-                //})
-                ;
+            //services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+            //    .AddCookie(o => {
+            //        o.LoginPath = new PathString("/login");
+            //        o.AccessDeniedPath = new PathString("/home/access-denied");
+            //    })
+            //    ;
+            services.AddAuthentication(options =>
+            {
+                options.DefaultScheme = "Cookies";//使用Cookies认证
+                options.DefaultChallengeScheme = "oidc";//使用oidc
+            })
+            .AddCookie("Cookies")//配置Cookies认证
+            .AddOpenIdConnect("oidc", options =>
+            {//配置oidc
+                options.SignInScheme = "Cookies";
+                options.Authority = "http://localhost:5004";
+                options.RequireHttpsMetadata = false;
+
+                options.ClientId = "dddmvc";
+                options.ClientSecret = "secret";
+                options.SaveTokens = true;
+              options.ResponseType = "code";
+            });
 
 
             // Automapper 注入
