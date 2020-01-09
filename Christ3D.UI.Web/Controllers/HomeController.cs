@@ -71,5 +71,13 @@ namespace Christ3D.UI.Web.Controllers
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
+
+
+        [HttpGet]
+        [Route("account/AccessDenied")]
+        public IActionResult AccessDenied()
+        {
+            return View();
+        }
     }
 }

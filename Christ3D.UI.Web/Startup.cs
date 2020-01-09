@@ -1,17 +1,10 @@
-﻿using System.IO;
-using Christ3D.Infra.IoC;
-using Christ3D.Infrastruct;
+﻿using Christ3D.Infra.IoC;
 using Christ3D.Infrastruct.Identity.Authorization;
-using Christ3D.Infrastruct.Identity.Data;
-using Christ3D.Infrastruct.Identity.Models;
 using Christ3D.UI.Web.Extensions;
 using MediatR;
-using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -50,12 +43,12 @@ namespace Christ3D.UI.Web
             });
 
 
-            services.AddDbContext<ApplicationDbContext>(options =>
-               options.UseSqlServer(DbConfig.InitConn(Configuration.GetConnectionString("DefaultConnection_file"), Configuration.GetConnectionString("DefaultConnection"))));
+            //services.AddDbContext<ApplicationDbContext>(options =>
+            //   options.UseSqlServer(DbConfig.InitConn(Configuration.GetConnectionString("DefaultConnection_file"), Configuration.GetConnectionString("DefaultConnection"))));
 
-            services.AddIdentity<ApplicationUser, IdentityRole>()
-                .AddEntityFrameworkStores<ApplicationDbContext>()
-                .AddDefaultTokenProviders();
+            //services.AddIdentity<ApplicationUser, IdentityRole>()
+            //    .AddEntityFrameworkStores<ApplicationDbContext>()
+            //    .AddDefaultTokenProviders();
 
             //services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
             //    .AddCookie(o => {
@@ -75,7 +68,7 @@ namespace Christ3D.UI.Web
                 options.Authority = "http://localhost:5004";
                 options.RequireHttpsMetadata = false;
 
-                options.ClientId = "dddmvc";
+                options.ClientId = "chrisdddmvc";
                 options.ClientSecret = "secret";
                 options.SaveTokens = true;
               options.ResponseType = "code";

@@ -16,7 +16,6 @@ using Christ3D.Infra.Data.Repository.EventSourcing;
 using Christ3D.Infra.Data.UoW;
 using Christ3D.Infrastruct.Identity.Authorization;
 using Christ3D.Infrastruct.Identity.Models;
-using Christ3D.Infrastruct.Identity.Services;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -84,9 +83,9 @@ namespace Christ3D.Infra.IoC
             services.AddScoped<IEventStoreService, SqlEventStoreService>();
             services.AddScoped<EventStoreSQLContext>();
 
-            // 注入 基础设施层 - Identity Services
-            services.AddTransient<IEmailSender, AuthEmailMessageSender>();
-            services.AddTransient<ISmsSender, AuthSMSMessageSender>();
+            //// 注入 基础设施层 - Identity Services
+            //services.AddTransient<IEmailSender, AuthEmailMessageSender>();
+            //services.AddTransient<ISmsSender, AuthSMSMessageSender>();
 
             // 注入 基础设施层 - Identity
             services.AddScoped<IUser, AspNetUser>();

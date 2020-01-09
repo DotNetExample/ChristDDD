@@ -5,6 +5,27 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Views\Account\**" />
+    <Compile Remove="Views\Manage\**" />
+    <Content Remove="Views\Account\**" />
+    <Content Remove="Views\Manage\**" />
+    <EmbeddedResource Remove="Views\Account\**" />
+    <EmbeddedResource Remove="Views\Manage\**" />
+    <None Remove="Views\Account\**" />
+    <None Remove="Views\Manage\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Remove="Controllers\AccountController.cs" />
+    <Compile Remove="Controllers\ManageController.cs" />
+    <Compile Remove="Extensions\UrlHelperExtensions.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Remove="Views\Shared\_LoginPartial.cshtml" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="AutoMapper" Version="9.0.0" />
     <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="7.0.0" />
     <PackageReference Include="IdentityServer4" Version="3.0.0" />
@@ -14,7 +35,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Christ3D.Application\Christ3D.Application.csproj" />
-    <ProjectReference Include="..\Christ3D.Infrastruct.Identity\Christ3D.Infrastruct.Identity.csproj" />
   </ItemGroup>
   
   
