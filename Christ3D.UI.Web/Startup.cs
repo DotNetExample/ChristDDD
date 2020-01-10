@@ -65,7 +65,7 @@ namespace Christ3D.UI.Web
             .AddOpenIdConnect("oidc", options =>
             {//配置oidc
                 options.SignInScheme = "Cookies";
-                options.Authority = "https://ids.neters.club";
+                options.Authority = "http://ids.neters.club";
                 options.RequireHttpsMetadata = false;
 
                 options.ClientId = "chrisdddmvc";
