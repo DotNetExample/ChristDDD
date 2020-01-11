@@ -19,7 +19,7 @@ namespace Christ3D.UI.Web
            3、update-database -Context StudyContext
            4、update-database -Context EventStoreSQLContext
 
-         二、迁移项目2（一定要切换到 Christ3D.Infrastruct.Identity 项目下，使用 Package Manager Console）：
+         二、迁移项目2【弃用，因为现在是使用IdentityServer4】（一定要切换到 Christ3D.Infrastruct.Identity 项目下，使用 Package Manager Console）：
            1、add-migration InitIdentityDb -Context ApplicationDbContext -o Data/Migrations/ 
            2、update-database -Context ApplicationDbContext
              
@@ -43,43 +43,13 @@ namespace Christ3D.UI.Web
             });
 
 
-            //services.AddDbContext<ApplicationDbContext>(options =>
-            //   options.UseSqlServer(DbConfig.InitConn(Configuration.GetConnectionString("DefaultConnection_file"), Configuration.GetConnectionString("DefaultConnection"))));
-
-            //services.AddIdentity<ApplicationUser, IdentityRole>()
-            //    .AddEntityFrameworkStores<ApplicationDbContext>()
-            //    .AddDefaultTokenProviders();
-
-            //services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
-            //    .AddCookie(o => {
-            //        o.LoginPath = new PathString("/login");
-            //        o.AccessDeniedPath = new PathString("/home/access-denied");
-            //    })
-            //    ;
-            services.AddAuthentication(options =>
-            {
-                options.DefaultScheme = "Cookies";//使用Cookies认证
-                options.DefaultChallengeScheme = "oidc";//使用oidc
-            })
-            .AddCookie("Cookies")//配置Cookies认证
-            .AddOpenIdConnect("oidc", options =>
-            {//配置oidc
-                options.SignInScheme = "Cookies";
-                options.Authority = "http://ids.neters.club";
-                options.RequireHttpsMetadata = false;
-
-                options.ClientId = "chrisdddmvc";
-                options.ClientSecret = "secret";
-                options.SaveTokens = true;
-              options.ResponseType = "code";
-            });
-
+            // IdentityServer4 注入
+            services.AddId4OidcSetup();
 
             // Automapper 注入
             services.AddAutoMapperSetup();
 
             services.AddControllersWithViews();
-
 
             services.AddAuthorization(options =>
             {
