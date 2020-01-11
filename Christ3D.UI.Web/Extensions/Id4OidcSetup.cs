@@ -16,7 +16,7 @@ namespace Christ3D.UI.Web.Extensions
     /// </summary>
     public static class Id4OidcSetup
     {
-        private static readonly string config= "http://ids4.neters.club";
+        private static readonly string config= "https://ids.neters.club";
 
         public static void AddId4OidcSetup(this IServiceCollection services)
         {
