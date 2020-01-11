@@ -35,6 +35,8 @@ namespace Christ3D.UI.Web.Extensions
                     options.Authority = config;
                     options.RequireHttpsMetadata = false;
 
+                    options.MetadataAddress = $"{config}/.well-known/openid-configuration";
+
                     options.ClientId = "chrisdddmvc";
                     options.ClientSecret = "secret";
                     options.ResponseType = "code";
