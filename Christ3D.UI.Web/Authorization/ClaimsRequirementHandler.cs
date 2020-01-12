@@ -11,8 +11,9 @@ namespace Christ3D.Infrastruct.Identity.Authorization
                                                        ClaimRequirement requirement)
         {
 
-            var claim = context.User.Claims.FirstOrDefault(c => c.Type == requirement.ClaimName);
-            if (claim != null && claim.Value.Contains(requirement.ClaimValue))
+            var roleId = context.User.Claims.FirstOrDefault(c => c.Type == "role");
+            var loginUserName = context.User.Claims.FirstOrDefault(c => c.Type == "preferred_username");
+            if (roleId != null && roleId.Value == "4"&& loginUserName != null && loginUserName.Value == "blogadmin")
             {
                 context.Succeed(requirement);
             }

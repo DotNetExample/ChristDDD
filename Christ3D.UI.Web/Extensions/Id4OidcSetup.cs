@@ -3,6 +3,8 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Threading.Tasks;
 using AutoMapper;
 using Christ3D.Application.AutoMapper;
+using IdentityModel;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.OpenIdConnect;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
@@ -22,27 +24,36 @@ namespace Christ3D.UI.Web.Extensions
         {
             if (services == null) throw new ArgumentNullException(nameof(services));
 
-            JwtSecurityTokenHandler.DefaultMapInboundClaims = false;
 
+            //关闭默认映射，否则它可能修改从授权服务返回的各种claim属性
+            JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear();
+            //添加认证服务，并设置其有关选项
             services.AddAuthentication(options =>
             {
-                options.DefaultScheme = "Cookies";
-                options.DefaultChallengeScheme = "oidc";
-            })
-                .AddCookie("Cookies")
-                .AddOpenIdConnect("oidc", options =>
-                {
-                    options.Authority = config;
-                    options.RequireHttpsMetadata = false;
+                // 客户端应用设置使用"Cookies"进行认证
+                options.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+                // identityserver4设置使用"oidc"进行认证
+                options.DefaultChallengeScheme = OpenIdConnectDefaults.AuthenticationScheme;
 
-                    options.MetadataAddress = $"{config}/.well-known/openid-configuration";
+            }).AddCookie(CookieAuthenticationDefaults.AuthenticationScheme)
+                 // 对使用的OpenIdConnect进行设置，此设置与Identityserver的config.cs中相应client配置一致才可能登录授权成功
+                 .AddOpenIdConnect(OpenIdConnectDefaults.AuthenticationScheme, options =>
+                 {
+                     options.SignInScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+                     options.Authority = config;
+                     options.RequireHttpsMetadata = false;
+                     options.ClientId = "chrisdddmvc";
+                     options.ClientSecret = "secret";
+                     options.SaveTokens = true;
+                     options.ResponseType = "code";
 
-                    options.ClientId = "chrisdddmvc";
-                    options.ClientSecret = "secret";
-                    options.ResponseType = "code";
+                     options.Scope.Clear();
+                     options.Scope.Add("roles");//"roles"
+                     options.Scope.Add(OidcConstants.StandardScopes.OpenId);//"openid"
+                     options.Scope.Add(OidcConstants.StandardScopes.Profile);//"profile"
+                     options.Scope.Add(OidcConstants.StandardScopes.Email);//"email"
 
-                    options.SaveTokens = true;
-                });
+                 });
 
         }
 
