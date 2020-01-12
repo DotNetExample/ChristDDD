@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using System.Security.Claims;
 using Christ3D.Domain.Interfaces;
 using Microsoft.AspNetCore.Http;
@@ -14,7 +15,8 @@ namespace Christ3D.Infrastruct.Identity.Models
             _accessor = accessor;
         }
 
-        public string Name => _accessor.HttpContext.User.Identity.Name;
+        //public string Name => _accessor.HttpContext.User.Identity.Name;
+        public string Name => GetClaimsIdentity().FirstOrDefault(c => c.Type == "name")?.Value;
 
         public bool IsAuthenticated()
         {
