@@ -41,14 +41,16 @@ namespace Christ3D.UI.Web.Extensions
                  {
                      options.SignInScheme = CookieAuthenticationDefaults.AuthenticationScheme;
                      options.Authority = config;
-                     options.RequireHttpsMetadata = false;
-                     options.ClientId = "chrisdddmvc";
+                     options.RequireHttpsMetadata = false;//必须https协议
+                     options.ClientId = "chrisdddmvc";//idp项目中配置的client
                      options.ClientSecret = "secret";
                      options.SaveTokens = true;
-                     options.ResponseType = "code";
+                     options.ResponseType = "code";//响应类型
 
+                     // 下边是所有的scope,必须要和idp项目中一致,至少是一部分
                      options.Scope.Clear();
                      options.Scope.Add("roles");//"roles"
+                     options.Scope.Add("rolename");//"rolename"
                      options.Scope.Add(OidcConstants.StandardScopes.OpenId);//"openid"
                      options.Scope.Add(OidcConstants.StandardScopes.Profile);//"profile"
                      options.Scope.Add(OidcConstants.StandardScopes.Email);//"email"
